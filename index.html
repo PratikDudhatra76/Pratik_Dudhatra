@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pratik Dudhatra - Cloud Engineer Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Reset & Fonts */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#f0f2f8;color:#333;line-height:1.6;scroll-behavior:smooth;transition:0.5s;}
+a{text-decoration:none;}
+
+/* Dark/Light Toggle */
+body.dark{background:#0f172a;color:#f0f2f8;}
+body.dark header{background:linear-gradient(135deg,#1e40af,#3b82f6);}
+body.dark nav{background:#111827;}
+body.dark .skill{background:linear-gradient(135deg,#3b82f6,#2563eb);}
+body.dark .edu-cert{background:#1e293b;color:white;}
+body.dark footer{background:#111827;color:white;}
+.toggle-btn{
+  position:fixed;top:20px;right:20px;padding:10px 18px;
+  background:#2563eb;color:white;border:none;border-radius:8px;cursor:pointer;z-index:1000;
+  font-weight:600;transition:0.3s;
+}
+.toggle-btn:hover{background:#1e3a8a;}
+
+/* Hero Section with Card */
+header{
+  position:relative;text-align:center;padding:120px 20px;color:white;
+  background:linear-gradient(135deg,#0f172a,#1e40af);
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  overflow:hidden;
+}
+header canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
+.hero-card{
+  display:inline-block;
+  background:rgba(255,255,255,0.05);
+  padding:40px 50px;
+  border-radius:20px;
+  backdrop-filter:blur(15px);
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  transition:0.5s;
+  position:relative; z-index:1;
+}
+.hero-card:hover{
+  transform:translateY(-5px) scale(1.02);
+  box-shadow:0 25px 60px rgba(0,0,0,0.5);
+}
+.hero-card img{
+  width:160px;height:160px;border-radius:50%;border:4px solid white;
+  object-fit:cover;margin-bottom:20px;transition:0.6s;
+}
+.hero-card img:hover{transform:scale(1.1);}
+.hero-card h1{font-size:3em;margin-bottom:10px;}
+.hero-card .designation{font-size:1.2em;margin-bottom:5px;opacity:0.9;}
+.hero-card .location{font-size:1em;margin-bottom:20px;opacity:0.8;}
+.hero-card .contact-links a{
+  display:inline-block;margin:10px 12px;padding:12px 25px;
+  background:white;color:#0f172a;font-weight:600;border-radius:8px;transition:0.3s;
+}
+.hero-card .contact-links a:hover{background:#2563eb;color:white;}
+
+/* Navigation */
+nav{display:flex;justify-content:center;background:#1e293b;flex-wrap:wrap;position:sticky;top:0;z-index:10;}
+nav a{color:white;margin:10px 20px;font-weight:600;padding:10px;transition:0.3s;}
+nav a:hover, nav a.active{color:#2563eb;}
+
+/* Sections */
+section{padding:60px 20px; max-width:1000px; margin:auto;}
+h2{text-align:center;color:#0f172a;margin-bottom:40px;font-size:2.2em;position:relative;}
+body.dark h2{color:#f0f2f8;}
+h2::after{content:"";display:block;width:60px;height:3px;background:#2563eb;margin:10px auto 0;border-radius:2px;}
+
+/* About */
+.about p{font-size:1.1em;text-align:justify;line-height:1.8;opacity:0;transform:translateY(20px);transition:all 0.8s ease;}
+.about.visible p{opacity:1;transform:translateY(0);}
+
+/* Skills */
+.skills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+.skill{
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  color:white;padding:15px 19px;border-radius:9px;font-weight:450;
+  transition:0.5s;box-shadow:0 6px 18px rgba(0,0,0,0.2);cursor:pointer;text-align:center;min-width:250px; position:relative;
+}
+.skill:hover{transform:translateY(-5px) scale(1.05);box-shadow:0 12px 25px rgba(0,0,0,0.3);}
+.skill .progress{background:rgba(255,255,255,0.2);height:6px;width:100%;border-radius:4px;margin-top:10px;overflow:hidden;}
+.skill .progress-bar{height:6px;width:0%;background:#fff;border-radius:4px;transition:width 1.5s;}
+
+/* Experience Timeline */
+.timeline{position:relative;margin:20px 0;padding-left:50px;}
+.timeline::before{content:'';position:absolute;top:0;left:22px;width:4px;height:100%;background:#2563eb;border-radius:2px;}
+.experience-item{
+  background:white;padding:25px;margin-bottom:30px;border-left:6px solid #0f172a;box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  border-radius:10px;transition:0.5s;position:relative;opacity:0;transform:translateX(-50px);transition:all 0.8s ease;
+}
+body.dark .experience-item{background:#1e293b;color:white;border-left:6px solid #3b82f6;}
+.experience-item.visible{opacity:1;transform:translateX(0);}
+.experience-item h3{color:#0f172a;margin-bottom:15px;}
+body.dark .experience-item h3{color:#3b82f6;}
+.experience-item p{font-size:1em;white-space:pre-line;line-height:1.6;}
+
+/* Education / Certifications / Awards */
+.edu-cert{background:white;padding:20px;margin-bottom:25px;border-left:6px solid #2563eb;border-radius:10px;box-shadow:0 8px 15px rgba(0,0,0,0.1);transition:0.3s, transform 0.3s;}
+.edu-cert:hover{transform:translateY(-5px);box-shadow:0 12px 20px rgba(0,0,0,0.2);}
+body.dark .edu-cert{background:#1e293b;color:white;}
+.edu-cert h3{color:#2563eb;margin-bottom:10px;}
+body.dark .edu-cert h3{color:#3b82f6;}
+.edu-cert p{font-size:1em;line-height:1.5;}
+
+/* Contact */
+.contact{text-align:center;margin-top:20px;opacity:0;transform:translateY(20px);transition:all 0.8s ease;}
+.contact.visible{opacity:1;transform:translateY(0);}
+.contact a{display:inline-block;margin:10px;padding:12px 25px;background:#0f172a;color:white;border-radius:8px;transition:0.3s;}
+body.dark .contact a{background:#3b82f6;color:white;}
+.contact a:hover{background:#2563eb;}
+
+/* Footer */
+footer{text-align:center;padding:25px;background:#1e293b;color:white;margin-top:40px;font-size:0.9em;}
+body.dark footer{background:#111827;color:white;}
+
+/* Responsive */
+@media(max-width:768px){.skills{flex-direction:column;} nav{flex-direction:column;}}
+</style>
+
+
+
+</head>
+<body>
+
+<button class="toggle-btn">🌙 Toggle Dark</button>
+
+<!-- Hero Section -->
+<header>
+<canvas id="particles"></canvas>
+<div class="hero-card">
+<img src="C:\Users\Dell\Downloads\new photos p1 .jpg" alt="Pratik Dudhatra">
+<h1>Pratik Dudhatra</h1>
+<p class="designation">Associate Consultant - AWS | Cloud Engineer | Team Lead | Power BI Expert</p>
+<p class="location">Ahmedabad, India | +91 6351740338 | pratikdudhatra76@gmail.com</p>
+<div class="contact-links">
+  <a href="mailto:pratikdudhatra76@gmail.com">Email Me</a>
+  <a href="https://www.linkedin.com/in/pratikdhudhatra/" target="_blank">LinkedIn</a>
+</div>
+</div>
+</header>
+
+<!-- Navigation -->
+<nav>
+<a href="#about">About</a>
+<a href="#skills">Skills</a>
+<a href="#experience">Experience</a>
+<a href="#education">Education</a>
+<a href="#certifications">Certifications</a>
+<a href="#awards">Awards</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<!-- About Section -->
+<section id="about">
+<h2>About Me</h2>
+<div class="about">
+<p>
+    AWS Cloud Engineer with 3+ years of experience in designing, implementing, and managing cloud infrastructure.
+Currently working as an Associate Consultant –AWS & Team Lead, with expertise in AWS services, DevOps
+practices, and Power BI analytics. Skilled in leading teams, driving end-to-end cloud projects, and ensuring high
+availability, cost optimization, and performance tuning. Strong background in CI/CD, Infrastructure as Code,
+automation, and dashboard development, coupled with problem-solving abilities and a passion for continuous
+learning and innovation.
+</p>
+</div>
+</section>
+
+
+<!-- Skills Section -->
+<section id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+    <table style = "border-collapse: separate; border-spacing: 10px 10px;">
+      <tr>
+          <td><div class="skill", style="padding-top : 11%; padding-bottom : 11%;">AWS Cloud, EC2, S3, RDS, Lambda, Fargate<div class="progress"><div class="progress-bar" style="width:90%"></div></div></div></td>
+          <td><div class="skill", style="padding-bottom: 11%; padding-top: 11%;">CI/CD Pipelines (Jenkins, GitHub Actions)<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>
+          <td><div class="skill", style="padding-top : 11%; padding-bottom: 11%;">Power BI (Dashboards, Reports, Data Visualization)<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+          <td><div class="skill">Team Leadership & Mentoring (Managing 25–35 member AWS teams)<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+
+      </tr>
+      <tr>    
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">VPC, Subnets, Networking, Event, NACL<div class="progress"><div class="progress-bar" style="width:85%"></div></div></div></td>
+          <td><div class="skill">Containerization & Orchestration(Docker, Kubernetes, EKS)S<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+          <td><div class="skill", style="padding-top : 11.3%; padding-bottom: 11.3%;">Integration with SQL, Excel, and Cloud Data Sources<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+          <td><div class="skill", style="padding-top : 11%; padding-bottom: 11%;">Project Lifecycle Management<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+
+      </tr>
+      <tr>    
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">CloudWatch, CloudTrail, System Manager<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>
+          <td><div class="skill">Infrastructure as Code(Terraform, AWS CloudFormation, Ansible)<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>     
+          <td><div class="skill">ETL using Power Query, Data Transformation & Cleansing<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">Cost Estimation, Budgeting & Resource Allocation<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+
+      </tr>
+      <tr>
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">Dynamo DB, Redsift, Governance<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>
+          <td><div class="skill">Linux, Ubuntu, Windows(S3, Glacier, FSx, SNS, SES, GIT,Github)<div class="progress"><div class="progress-bar" style="width:90%"></div></div></div></td>            
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">Report Automation & KPI Tracking<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">Client Communication & Collaboration<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+
+      </tr>
+      <tr>
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">EBS, EFS, RDS, AWS Backup Plan,EDRS<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">Monitoring & Logging (Prometheus, Grafana, ELK)<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+          <td><div class="skill">Automation & Advanced Features(Power BI Service, RLS)<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">Requirement Gathering & Technical Consulting<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+
+      </tr>
+      <tr>
+          <td><div class="skill", style="padding-top: 10.75%; padding-bottom: 10.75%;">Google Cloud Platform Services<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>
+          <td><div class="skill">Security & Compliance(IAM,SSL/TLS, Secrets Manager)<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>
+          <td><div class="skill">Performance Optimization(Optimize DAX & Measures)<div class="progress"><div class="progress-bar" style="width:80%"></div></div></div></td>
+          <td><div class="skill", style="padding-top: 11%; padding-bottom: 11%;">Building Long-term Client Relationships<div class="progress"><div class="progress-bar" style="width:75%"></div></div></div></td>
+      </tr>
+    </table>
+    </div>
+</section>
+
+
+<!-- Experience Section -->
+<section id="experience">
+<h2>Professional Experience</h2>
+<div class="timeline">
+<div class="experience-item">
+<h3>Associate Consultant - AWS & Team Lead | AEONX DIGITAL (03/2024 – Present)</h3>
+<p>
+• Project manager for 35+ projects, handling end-to-end processes from architecture design to implementation, ensuring timely and efficient project execution.
+• Managed EC2, S3, RDS, Lambda, VPC, IAM, CloudWatch.
+• Mentored team & optimized infrastructure performance.
+• Implemented backup, disaster recovery, HA strategies.
+• CI/CD pipeline implementation with Jenkins & GitHub Actions.
+• Docker & Kubernetes deployment (EKS).
+• Infrastructure automation using Terraform & CloudFormation.
+• Monitoring & alerting using CloudWatch & Site24x7.
+• Security & IAM policies management.
+• Cost optimization & resource management.
+• End-to-end cloud migration projects.
+• Developed Power BI dashboards & automated reporting.
+</p>
+</div>
+<div class="experience-item">
+<h3>AWS Technical Support Representative | BIT INFOTECH (02/2023 – 03/2024)</h3>
+<p>
+• Troubleshooting AWS services & infrastructure.
+• Performance optimization & storage solutions.
+• Network & load balancer configuration.
+• Disaster recovery & backup support.
+• Client cost estimation & optimization.
+• Automated tasks using scripts.
+• Assisted in CloudFormation template deployments.
+• Monitoring billing & cloud alerts.
+• Power BI report support.
+• Incident & SLA management.
+• Security & compliance support.
+• End-user training & documentation.
+</p>
+</div>
+</div>
+</section>
+
+<!-- Education Section -->
+<section id="education">
+<h2>Education</h2>
+<div class="edu-cert">
+<h3>Bachelor of Computer Applications | RK University (06/2020 – 05/2023)</h3>
+<p>CGPA: 9.2/10 | Rajkot, India</p>
+</div>
+</section>
+
+<!-- Certifications Section -->
+<section id="certifications">
+<h2>Certifications</h2>
+<div class="edu-cert">
+<h3>AWS Certified Solutions Architect - Associate</h3>
+<p>Validation Number: SPF31PQJQFR41ZKW</p>
+</div>
+<div class="edu-cert">
+<h3>Associate Google Cloud Engineer</h3>
+<p>Validation Number: 5e3f0b955ddf410b922e5a52f69349</p>
+</div>
+<div class="edu-cert">
+<h3>Microsoft Power BI Certified</h3>
+<p>Validation Number: wt9ivcblju</p>
+</div>
+</section>
+
+<!-- Awards Section -->
+<section id="awards">
+<h2>Awards & Achievements</h2>
+<div class="edu-cert">
+<h3>Best Cloud Engineer Award | AEONX DIGITAL (2024)</h3>
+<p>Recognized for exceptional performance in AWS project deployments.</p>
+</div>
+<div class="edu-cert">
+<h3>Employee of the Month | BIT INFOTECH (2023)</h3>
+<p>Outstanding contribution in cloud cost optimization & monitoring.</p>
+</div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact">
+<h2>Contact Me</h2>
+<div class="contact">
+<a href="mailto:pratikdudhatra76@gmail.com">Email Me</a>
+<a href="tel:+916351740338">Call Me</a>
+<a href="https://www.linkedin.com/in/pratikdhudhatra/" target="_blank">LinkedIn</a>
+</div>
+</section>
+
+<!-- Footer -->
+<footer>
+<p>© 2025 Pratik Dudhatra | All Rights Reserved</p>
+</footer>
+
+<script>
+// Dark/Light Toggle
+const toggleBtn=document.querySelector('.toggle-btn');
+toggleBtn.addEventListener('click',()=>{document.body.classList.toggle('dark');});
+
+// Skills Progress Animation
+const skills=document.querySelectorAll('.skill .progress-bar');
+skills.forEach(skill=>{
+  setTimeout(()=>{skill.style.width=skill.style.width=''+skill.parentElement.parentElement.getAttribute('data-width');},500);
+});
+
+// Scroll Animation
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.about, .experience-item, .contact').forEach(el=>observer.observe(el));
+
+// Simple Particle Background
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=400;
+let particlesArray=[];
+class Particle{
+  constructor(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*2+1;this.speedX=Math.random()*1-0.5;this.speedY=Math.random()*1-0.5;}
+  update(){this.x+=this.speedX;this.y+=this.speedY;if(this.x>canvas.width)this.x=0;if(this.x<0)this.x=canvas.width;if(this.y>canvas.height)this.y=0;if(this.y<0)this.y=canvas.height;}
+  draw(){ctx.fillStyle='rgba(255,255,255,0.6)';ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}
+}
+function init(){particlesArray=[];for(let i=0;i<100;i++)particlesArray.push(new Particle());}
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particlesArray.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);}
+init();animate();
+</script>
+</body>
+</html>
